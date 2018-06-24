@@ -1,17 +1,18 @@
 import telebot
 from settings import *
 from datetime import datetime
-import work_db
+
+import db
 
 
 bot = telebot.TeleBot(TOKEN)
+users = db.User(DB_NAME)
 
 START = "Добро пожаловать, здесь ты можешь изучить более 1000 английских слов\n" \
         "Welcome, here you can learn more than 1000 English words"
 HELP = "Для того чтобы начать пользовать ботом, вам нужно добавить себя в рассылку.\n" \
        "Делается это командой /add . После чего вам каждый день в определенное время будет приходить 5 различных слов\n" \
        "Если вы по каким то причинам хотите удалить себя из рассылки бота, используйте команду /remove ."
-
 
 
 def log(message, answer):
@@ -33,7 +34,6 @@ def handle_start(message):
     answer = START
     log(message, answer)
 
-
 @bot.message_handler(commands=['help'])
 def handle_help(message):
     bot.send_message(message.chat.id, HELP)
@@ -44,9 +44,9 @@ def handle_help(message):
 
 @bot.message_handler(commands=['add'])
 def handle_add(message):
-    users = message.from_user.first_name + " " + message.from_user.last_name
-    chatID = message.from_user.id
-    # users.addDB(users, chatID)
+    user = message.from_user.first_name + " " + message.from_user.last_name
+    chat_id = message.from_user.id
+    users.addDB(user, chat_id)
     sucs = "Вы добавлены в базу рассылки бота\n" \
            "You are added to the bot mailing list"
     bot.send_message(message.chat.id, sucs)
@@ -57,18 +57,15 @@ def handle_add(message):
 @bot.message_handler(commands=['remove'])
 def handle_remove(message):
     chatID = message.from_user.id
-    # users.delete_userdb(chatID)
+    users.delete_userdb(chatID)
     sucs = "Вы удалены из базы рассылки бота\n" \
            "You are removed from the bot mailing list"
     bot.send_message(message.chat.id, sucs)
     log(message, sucs)
 
 
-users = work_db.User()
 bot.polling(none_stop=True, interval=0)
 
-
-# input()
 
 def main():
     pass

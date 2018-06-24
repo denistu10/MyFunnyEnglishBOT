@@ -1,7 +1,8 @@
 import telebot
 import settings
-import work_db
+import db
+
 
 bots = telebot.TeleBot(settings.TOKEN)
-dic = work_db.Dictionary()
+dic = db.Dictionary("MyFunnyEnglish.db")
 dic.send_mess(bots)
