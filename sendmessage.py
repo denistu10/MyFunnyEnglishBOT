@@ -6,5 +6,5 @@ import db
 
 
 bots = telebot.TeleBot(settings.TOKEN)
-dic = db.Dictionary("MyFunnyEnglish.db")
+dic = db.Dictionary(settings.DB_NAME)
 dic.send_mess(bots)
