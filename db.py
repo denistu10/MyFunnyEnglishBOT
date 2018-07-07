@@ -1,4 +1,7 @@
+#!/usr/bin/env python3.6
+
 import sqlite3
+import settings
 
 class User():
     def __init__(self, db):
@@ -32,7 +35,7 @@ class User():
 
 
 class Dictionary():
-    file = open("temp.txt")
+    file = open(settings.TMP_FILE)
     txt = file.readlines()
     count = int(txt[0])
 
@@ -50,7 +53,7 @@ class Dictionary():
             cursor.execute(sql, [ids])
             rows = cursor.fetchall()
             # self.count += 5
-            wr = open("temp.txt", "w")
+            wr = open(settings.TMP_FILE, "w")
             new_num = str(i + 1)
             wr.write(new_num)
             wr.close()
@@ -59,7 +62,7 @@ class Dictionary():
         return row
 
     def send_mess(self,bot):
-        user = User("MyFunnyEnglish.db")
+        user = User(settings.DB_NAME)
         users = user.infoUserDB()
         temp = self.set_phr()
         for chatid in users:

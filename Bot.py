@@ -1,3 +1,5 @@
+#!/usr/bin/env python3.6
+
 import telebot
 from settings import *
 from datetime import datetime
@@ -16,7 +18,7 @@ HELP = "Для того чтобы начать пользовать ботом,
 
 
 def log(message, answer):
-    file_log = open("bot.log", 'a')
+    file_log = open(LOG_FILE, 'a')
     file_log.writelines(str(datetime.now()) + " " + "Сообщение от: {0} {1}. (id = {2}) Текст:{3} \n".format(message.from_user.first_name,
                                                                    message.from_user.last_name,
                                                                    str(message.from_user.id),
